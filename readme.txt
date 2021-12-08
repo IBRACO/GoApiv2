@@ -1,0 +1,1 @@
+Les request doivent etre envoyés sous format json
