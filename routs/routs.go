@@ -11,7 +11,7 @@ func Roots() {
 	e := echo.New()
 	e.GET("/user/:id", controllers.GetUserById)
 	e.PUT("/user/update/:id", controllers.UpdateUserById)
-	e.DELETE("/user/delete/:id", controllers.DeleteUserById)
+	e.DELETE("/user/delete/:id/:role", controllers.DeleteUserById)
 	e.POST("/fg", controllers.ForgetPw)
 	e.POST("/change", controllers.ChangePassword)
 	e.POST("/uppass", controllers.UpdatePassword)

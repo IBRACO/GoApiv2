@@ -36,6 +36,10 @@ func DeleteUserById(c echo.Context) error {
 	// db := connexion()
 	db := database.Connexion()
 	id := c.Param("id")
+	role := c.Param("role")
+	if role != "admin"{
+		return c.String(http.StatusBadRequest, "you are not allowed to delete a user")
+	}
 	st := db.Delete(&entity.User{}, id)
 	if int(st.RowsAffected) == 0 {
 		return c.String(http.StatusBadRequest, "The user ID not fund")

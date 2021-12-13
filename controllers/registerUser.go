@@ -1,11 +1,10 @@
 package controllers
 
 import (
-
+	database "example/fgp/database"
+	entity "example/fgp/entity"
+	utils "example/fgp/utils"
 	"net/http"
-	entity"example/fgp/entity"
-	utils"example/fgp/utils"
-	database"example/fgp/database"
 
 	"github.com/labstack/echo/v4"
 )
@@ -23,13 +22,16 @@ func SaveUser(c echo.Context) error {
 	emailSended := user.Email
 	// db.First(&user, emailSended)
 	// user2 := new(User)
-	result1 := db.Where("email = ?",emailSended ).First(&user)
+	result1 := db.Where("email = ?", emailSended).First(&user)
 
-	
 	if result1.Error != nil {
 
-		 hash, _ := utils.GeneratePassword(password)
-	     user.Password = hash
+		hash, _ := utils.GeneratePassword(password)
+		user.Password = hash
+		if user.Role == ""{
+			user.Role = "client"
+
+		}
 		result := db.Create(&user)
 		if result.RowsAffected == 0 {
 			panic(result.Error)
@@ -42,8 +44,8 @@ func SaveUser(c echo.Context) error {
 			// return c.String(http.StatusBadRequest, fmt.Sprintf("IMPOSIBLE DE CREER\n  %v", result.Error))
 		}
 
-		return c.JSON(http.StatusOK,  user)
+		return c.JSON(http.StatusOK, user)
 
 	}
-	return c.String(http.StatusBadRequest,"Adresse  mail occupé par une autre personne, veuiller utiliser une autre adresse \n ou vous autentifier")
+	return c.String(http.StatusBadRequest, "Adresse  mail occupé par une autre personne, veuiller utiliser une autre adresse \n ou vous autentifier")
 }

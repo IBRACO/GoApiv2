@@ -18,4 +18,5 @@ type User struct {
 	Age        string `json:"age"`
 	Token string `json:"token"`
 	UUID string `json:"uuid"`
+	Role string `json:"role"`
 }
